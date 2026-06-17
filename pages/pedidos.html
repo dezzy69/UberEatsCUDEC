@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pedidos</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="../css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+
+  <!-- Materialize JS -->
+  <script src="../js/materialize.min.js"></script>
+</head>
+
+<body class="grey lighten-4">
+
+  <!-- NAV -->
+  <nav class="z-depth-0">
+    <div class="nav-wrapper container">
+      <a href="../index.html">TIENDITA</a>
+      <i class="material-icons sidenav-trigger right" data-target="menu">menu</i>
+    </div>
+  </nav>
+
+  <!-- SIDENAV -->
+  <ul id="menu" class="sidenav">
+    <li><a href="../index.html">Inicio</a></li>
+    <li><a href="pedidos.html">Pedidos</a></li>
+  </ul>
+
+  <!-- FORMULARIO -->
+  <div class="container">
+
+    <h4 class="center">Hacer Pedido</h4>
+
+    <div class="card-panel">
+
+      <form id="pedidoForm">
+
+        <!-- Nombre -->
+        <div class="input-field">
+          <input type="text" id="nombre" required>
+          <label>Nombre</label>
+        </div>
+
+        <!-- Dirección -->
+        <div class="input-field">
+          <input type="text" id="direccion" required>
+          <label>Dirección</label>
+        </div>
+
+        <!-- PLATILLOS DINÁMICOS -->
+        <div class="input-field">
+          <select id="platilloSelect" required>
+            <option value="" disabled selected>Cargando platillos...</option>
+          </select>
+          <label>Platillo</label>
+        </div>
+
+        <!-- Cantidad -->
+        <div class="input-field">
+          <input type="number" id="cantidad" min="1" required>
+          <label>Cantidad</label>
+        </div>
+
+        <button class="btn red">HACER PEDIDO</button>
+
+      </form>
+
+      <p id="mensaje" class="center green-text"></p>
+
+    </div>
+  </div>
+
+  <!-- FIREBASE -->
+  <script src="https://www.gstatic.com/firebasejs/6.0.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.0.1/firebase-firestore.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyC-_rZGZFjRR2clzdLMy3xLPks43ijZG4Q",
+      authDomain: "coffe-maker-2ed03.firebaseapp.com",
+      projectId: "coffe-maker-2ed03"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+  </script>
+
+  <!-- JS -->
+  <script src="../js/pedidos.js"></script>
+
+</body>
+</html>
