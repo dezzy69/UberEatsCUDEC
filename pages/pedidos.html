@@ -5,110 +5,121 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pedidos</title>
 
-  <!-- CSS -->
   <link rel="stylesheet" href="../css/materialize.min.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="../css/styles.css">
 
-  <!-- Materialize JS -->
   <script src="../js/materialize.min.js"></script>
 </head>
 
 <body class="grey lighten-4">
 
-  <!-- NAV -->
-  <nav class="z-depth-0">
+<nav class="z-depth-0">
     <div class="nav-wrapper container">
-      <a href="../index.html">TIENDITA</a>
-      <i class="material-icons sidenav-trigger right" data-target="menu">menu</i>
+        <a href="../index.html">TIENDITA</a>
+        <i class="material-icons sidenav-trigger right" data-target="menu">menu</i>
     </div>
-  </nav>
+</nav>
 
-  <!-- SIDENAV -->
-  <ul id="menu" class="sidenav">
+<ul id="menu" class="sidenav">
     <li><a href="../index.html">Inicio</a></li>
     <li><a href="pedidos.html">Pedidos</a></li>
-  </ul>
+</ul>
 
-  <!-- CONTENIDO -->
-  <div class="container">
+<div class="container">
 
     <h4 class="center">🍔 Hacer Pedido</h4>
 
-    <!-- TARJETAS DE PLATILLOS -->
     <div id="contenedorPlatillos" class="row"></div>
 
-    <!-- FORMULARIO -->
     <div class="card-panel">
 
-      <form id="pedidoForm">
+        <form id="pedidoForm">
 
-        <div class="input-field">
-          <input type="text" id="nombre" required>
-          <label for="nombre">Nombre</label>
-        </div>
+            <div class="input-field">
+                <input type="text" id="nombre" required>
+                <label for="nombre">Nombre</label>
+            </div>
 
-        <div class="input-field">
-          <input type="text" id="direccion" required>
-          <label for="direccion">Dirección</label>
-        </div>
+            <div class="input-field">
+                <input type="text" id="direccion" required>
+                <label for="direccion">Dirección</label>
+            </div>
 
-        <div class="input-field">
-          <select id="platilloSelect" required>
-            <option value="" disabled selected>
-              Selecciona un platillo
-            </option>
-          </select>
-          <label>Platillo</label>
-        </div>
+            <div class="center">
+                <button type="button" id="btnUbicacion" class="btn blue">
+                    <i class="material-icons left">location_on</i>
+                    Obtener ubicación
+                </button>
+            </div>
 
-        <div class="input-field">
-          <input
-            type="number"
-            id="cantidad"
-            min="1"
-            value="1"
-            required
-          >
-          <label for="cantidad" class="active">
-            Cantidad
-          </label>
-        </div>
+            <br>
 
-        <button
-          type="submit"
-          class="btn red waves-effect waves-light"
-        >
-          HACER PEDIDO
-        </button>
+            <div class="input-field">
+                <input type="text" id="ubicacion" readonly>
+                <label for="ubicacion" class="active">
+                    Ubicación GPS
+                </label>
+            </div>
 
-      </form>
+            <div class="input-field">
+                <select id="platilloSelect" required>
+                    <option value="" disabled selected>
+                        Selecciona un platillo
+                    </option>
+                </select>
+                <label>Platillo</label>
+            </div>
 
-      <br>
+            <div class="input-field">
+                <input type="number"
+                       id="cantidad"
+                       min="1"
+                       value="1"
+                       required>
 
-      <p id="mensaje" class="center green-text"></p>
+                <label for="cantidad" class="active">
+                    Cantidad
+                </label>
+            </div>
+
+            <button type="submit"
+                    class="btn red waves-effect waves-light">
+
+                HACER PEDIDO
+
+            </button>
+
+        </form>
+
+        <br>
+
+        <p id="mensaje" class="center green-text"></p>
 
     </div>
 
-  </div>
+</div>
 
-  <!-- FIREBASE -->
-  <script src="https://www.gstatic.com/firebasejs/6.0.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/6.0.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.0.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.0.1/firebase-firestore.js"></script>
 
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyC-_rZGZFjRR2clzdLMy3xLPks43ijZG4Q",
-      authDomain: "coffe-maker-2ed03.firebaseapp.com",
-      projectId: "coffe-maker-2ed03"
-    };
+<script>
 
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-  </script>
+const firebaseConfig = {
 
-  <!-- JS -->
-  <script src="../js/pedidos.js"></script>
+    apiKey: "AIzaSyC-_rZGZFjRR2clzdLMy3xLPks43ijZG4Q",
+    authDomain: "coffe-maker-2ed03.firebaseapp.com",
+    projectId: "coffe-maker-2ed03"
+
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const db = firebase.firestore();
+
+</script>
+
+<script src="../js/pedidos.js"></script>
 
 </body>
 </html>

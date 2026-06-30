@@ -1,123 +1,166 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    const menus = document.querySelectorAll('.sidenav');
+    const menus = document.querySelectorAll(".sidenav");
     M.Sidenav.init(menus);
 
     cargarPlatillos();
 
-    document.getElementById("pedidoForm")
+    document
+        .getElementById("pedidoForm")
         .addEventListener("submit", guardarPedido);
+
+    document
+        .getElementById("btnUbicacion")
+        .addEventListener("click", obtenerUbicacion);
 
 });
 
 function cargarPlatillos() {
 
     db.collection("PLATILLOS").get()
-        .then((snapshot) => {
 
-            const select =
-                document.getElementById("platilloSelect");
+    .then((snapshot)=>{
 
-            const contenedor =
-                document.getElementById("contenedorPlatillos");
+        const select =
+        document.getElementById("platilloSelect");
 
-            select.innerHTML =
-                '<option value="" disabled selected>Selecciona un platillo</option>';
+        const contenedor =
+        document.getElementById("contenedorPlatillos");
 
-            if (contenedor) {
-                contenedor.innerHTML = "";
-            }
+        select.innerHTML =
+        '<option value="" disabled selected>Selecciona un platillo</option>';
 
-            snapshot.forEach((doc) => {
+        contenedor.innerHTML="";
 
-                const platillo = doc.data();
+        snapshot.forEach((doc)=>{
 
-                // llenar select
-                select.innerHTML += `
-                    <option value="${doc.id}">
-                        ${platillo.nombre}
-                    </option>
-                `;
+            const platillo = doc.data();
 
-                // mostrar tarjeta
-                if (contenedor) {
+            select.innerHTML +=
+            `<option value="${doc.id}">
+                ${platillo.nombre}
+            </option>`;
 
-                    contenedor.innerHTML += `
-                        <div class="col s12 m6 l4">
-                            <div class="card hoverable">
+            contenedor.innerHTML +=
 
-                                <div class="card-content">
+            `
+            <div class="col s12 m6 l4">
 
-                                    <span class="card-title">
-                                        🍔 ${platillo.nombre}
-                                    </span>
+                <div class="card hoverable">
 
-                                    <p>
-                                        ${platillo.ingredientes}
-                                    </p>
+                    <div class="card-content">
 
-                                    <br>
+                        <span class="card-title">
+                            🍔 ${platillo.nombre}
+                        </span>
 
-                                    <h5 class="red-text">
-                                        $${platillo.costo}
-                                    </h5>
+                        <p>${platillo.ingredientes}</p>
 
-                                </div>
+                        <br>
 
-                            </div>
-                        </div>
-                    `;
-                }
+                        <h5 class="red-text">
+                            $${platillo.costo}
+                        </h5>
 
-            });
+                    </div>
 
-            M.FormSelect.init(
-                document.querySelectorAll('select')
-            );
+                </div>
 
-        })
-        .catch((error) => {
-            console.log(error);
+            </div>
+            `;
+
         });
+
+        M.FormSelect.init(document.querySelectorAll("select"));
+
+    });
+
 }
 
-function guardarPedido(e) {
+function obtenerUbicacion(){
+
+    if(!navigator.geolocation){
+
+        alert("Tu navegador no soporta GPS.");
+
+        return;
+
+    }
+
+    navigator.geolocation.getCurrentPosition(
+
+        function(posicion){
+
+            const latitud =
+            posicion.coords.latitude;
+
+            const longitud =
+            posicion.coords.longitude;
+
+            document.getElementById("ubicacion").value =
+            latitud + ", " + longitud;
+
+            M.updateTextFields();
+
+        },
+
+        function(){
+
+            alert("No fue posible obtener la ubicación.");
+
+        }
+
+    );
+
+}
+
+function guardarPedido(e){
 
     e.preventDefault();
 
     const pedido = {
 
         nombreCliente:
-            document.getElementById("nombre").value,
+        document.getElementById("nombre").value,
 
         direccion:
-            document.getElementById("direccion").value,
+        document.getElementById("direccion").value,
+
+        ubicacion:
+        document.getElementById("ubicacion").value,
 
         platilloId:
-            document.getElementById("platilloSelect").value,
+        document.getElementById("platilloSelect").value,
 
         cantidad:
-            parseInt(document.getElementById("cantidad").value),
+        parseInt(document.getElementById("cantidad").value),
 
         fecha:
-            new Date()
+        new Date()
+
     };
 
     db.collection("PEDIDOS")
-        .add(pedido)
-        .then(() => {
+    .add(pedido)
 
-            document.getElementById("mensaje").innerHTML =
-                "✅ Pedido registrado correctamente";
+    .then(()=>{
 
-            document.getElementById("pedidoForm").reset();
+        document.getElementById("mensaje").innerHTML =
+        "✅ Pedido registrado correctamente";
 
-        })
-        .catch((error) => {
+        document.getElementById("pedidoForm").reset();
 
-            console.log(error);
+        document.getElementById("ubicacion").value="";
 
-            document.getElementById("mensaje").innerHTML =
-                "❌ Error al guardar el pedido";
-        });
+        M.updateTextFields();
+
+    })
+
+    .catch(()=>{
+
+        document.getElementById("mensaje").innerHTML =
+        "❌ Error al guardar el pedido";
+
+    });
+
 }
